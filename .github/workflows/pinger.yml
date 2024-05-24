@@ -1,0 +1,13 @@
+name: Pinger
+
+on:
+  schedule:
+    # run every 46 hours
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+    pinger:
+        runs-on: ubuntu-latest
+        steps:
+        - run: curl -s ${{ secrets.PINGER_URL }}
