@@ -1,4 +1,4 @@
-FROM elixir:1.13.4-slim AS builder
+FROM elixir:1.13.4-slim AS builderoo
 
 WORKDIR /app
 
@@ -20,7 +20,7 @@ FROM elixir:1.13.4-slim
 
 WORKDIR /app
 
-COPY --from=builder /app/_build/prod/rel/prod/ ./_build/prod/rel/prod/
+COPY --from=builderoo /app/_build/prod/rel/prod/ ./_build/prod/rel/prod/
 
 ARG SRH_MODE
 ENV SRH_MODE=${SRH_MODE}
