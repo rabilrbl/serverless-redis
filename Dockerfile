@@ -44,7 +44,7 @@ EXPOSE 7860
 COPY docker/supervisor.conf /etc/supervisor/conf.d/supervisor.conf
 COPY docker/redis.conf /etc/redis/redis.conf
 
-RUN chown -R rabil /etc/redis/redis.conf
+RUN sudo chown -R rabil /etc/redis/redis.conf
 
 RUN sudo chown -R rabil /app
 
