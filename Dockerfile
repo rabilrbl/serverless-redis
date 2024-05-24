@@ -44,9 +44,12 @@ EXPOSE 7860
 COPY docker/supervisor.conf /etc/supervisor/conf.d/supervisor.conf
 COPY docker/redis.conf /etc/redis/redis.conf
 
+RUN chown -R rabil /etc/redis/redis.conf
+
 RUN sudo chown -R rabil /app
 
 RUN sudo mkdir -p /etc/lib/redis
+RUN sudo chmod -R 777 /etc/lib/redis
 RUN sudo chown -R rabil /etc/lib/redis
 
 ENV MIX_ENV=prod
