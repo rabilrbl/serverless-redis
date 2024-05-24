@@ -1,3 +1,14 @@
+---
+title: Kv
+emoji: 📈
+colorFrom: purple
+colorTo: pink
+sdk: docker
+pinned: false
+license: mit
+app_port: 7860
+---
+
 # Serverless Redis HTTP (SRH)
 
 A Redis proxy and connection pooler that uses HTTP rather than the Redis binary protocol.\

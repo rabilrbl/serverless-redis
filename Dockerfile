@@ -1,4 +1,4 @@
-FROM elixir:1.13.4-alpine AS builder
+FROM elixir:1.13.4-slim AS builder
 
 WORKDIR /app
 
@@ -16,11 +16,25 @@ COPY config/ ./config/
 ENV MIX_ENV=prod
 RUN mix release
 
-FROM elixir:1.13.4-alpine
+FROM elixir:1.13.4-slim
 
 WORKDIR /app
 
 COPY --from=builder /app/_build/prod/rel/prod/ ./_build/prod/rel/prod/
+
+ARG SRH_MODE
+ENV SRH_MODE=${SRH_MODE}
+
+ARG SRH_TOKEN
+ENV SRH_TOKEN=${SRH_TOKEN}
+
+ENV SRH_CONNECTION_STRING="redis://127.0.0.1:6379"
+
+ENV SRH_PORT=7860
+EXPOSE 7860
+
+COPY docker/supervisor.conf /etc/supervisor/conf.d/supervisor.conf
+
 
 ENV MIX_ENV=prod
 CMD ["_build/prod/rel/prod/bin/prod", "start"]
