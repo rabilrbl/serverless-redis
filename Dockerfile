@@ -18,7 +18,7 @@ RUN mix release
 
 FROM elixir:1.13.4-slim
 
-RUN apt-get update && apt-get install -y redis-server
+RUN apt-get update && apt-get install -y redis-server supervisor
 
 WORKDIR /app
 
