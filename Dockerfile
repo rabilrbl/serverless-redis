@@ -18,7 +18,10 @@ RUN mix release
 
 FROM elixir:1.13.4-slim
 
-RUN apt-get update && apt-get install -y redis-server supervisor
+RUN apt-get update && apt-get install -y redis-server supervisor adduser
+
+RUN useradd -m rabil && echo "rabil:rabil" | chpasswd && adduser rabil sudo
+RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 WORKDIR /app
 
