@@ -6,7 +6,7 @@ colorTo: pink
 sdk: docker
 pinned: true
 license: mit
-app_port: 6379
+app_port: 7860
 ---
 
 # Serverless Redis HTTP (SRH)
