@@ -40,17 +40,16 @@ ENV SRH_CONNECTION_STRING=${SRH_CONNECTION_STRING}
 
 ENV SRH_PORT=7860
 EXPOSE 7860
+ENV MIX_ENV=prod
 
 COPY docker/supervisor.conf /etc/supervisor/conf.d/supervisor.conf
 COPY docker/redis.conf /etc/redis/redis.conf
 
-RUN sudo chmod -R 777 /etc/redis/
-
-RUN sudo chown -R rabil /app
-
 RUN sudo mkdir -p /etc/lib/redis
+
+RUN sudo chmod -R 777 /etc/redis/
+RUN sudo chmod -R 777 /app
 RUN sudo chmod -R 777 /etc/lib/redis
 
-ENV MIX_ENV=prod
 
 CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisor.conf"]
