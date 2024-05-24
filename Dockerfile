@@ -49,8 +49,8 @@ RUN chown -R rabil /etc/redis/redis.conf
 RUN sudo chown -R rabil /app
 
 RUN sudo mkdir -p /etc/lib/redis
-RUN sudo chmod -R 777 /etc/lib/redis
 RUN sudo chown -R rabil /etc/lib/redis
+RUN sudo chmod -R 777 /etc/lib/redis
 
 ENV MIX_ENV=prod
 
