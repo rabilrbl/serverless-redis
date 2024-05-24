@@ -46,7 +46,7 @@ COPY docker/redis.conf /etc/redis/redis.conf
 
 RUN sudo chown -R rabil /app
 
-RUN mkdir -p /etc/lib/redis
+RUN sudo mkdir -p /etc/lib/redis
 RUN sudo chown -R rabil /etc/lib/redis
 
 ENV MIX_ENV=prod
