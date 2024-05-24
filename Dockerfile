@@ -37,5 +37,6 @@ EXPOSE 7860
 
 COPY docker/supervisor.conf /etc/supervisor/conf.d/supervisor.conf
 
-
 ENV MIX_ENV=prod
+
+CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisor.conf"]
