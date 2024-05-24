@@ -18,10 +18,16 @@ RUN mix release
 
 FROM elixir:1.13.4-slim
 
-RUN apt-get update && apt-get install -y redis-server supervisor adduser sudo
+RUN apt-get update && apt-get install -y supervisor adduser sudo
 
 RUN useradd -m rabil && echo "rabil:rabil" | chpasswd && adduser rabil sudo
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
+RUN curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
+RUN sudo chmod 644 /usr/share/keyrings/redis-archive-keyring.gpg
+RUN echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/redis.list
+RUN sudo apt-get update
+RUN sudo apt-get install redis-stack-server
 
 WORKDIR /app
 
