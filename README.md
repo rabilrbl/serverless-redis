@@ -1,10 +1,10 @@
 ---
-title: placeholder
+title: pkv
 emoji: 📈
-colorFrom: purple
+colorFrom: red
 colorTo: pink
 sdk: docker
-pinned: false
+pinned: true
 license: mit
 app_port: 7860
 ---
