@@ -18,6 +18,8 @@ RUN mix release
 
 FROM elixir:1.13.4-slim
 
+RUN apt-get update && apt-get install -y redis-server
+
 WORKDIR /app
 
 COPY --from=builderish /app/_build/prod/rel/prod/ ./_build/prod/rel/prod/
@@ -37,4 +39,3 @@ COPY docker/supervisor.conf /etc/supervisor/conf.d/supervisor.conf
 
 
 ENV MIX_ENV=prod
-CMD ["_build/prod/rel/prod/bin/prod", "start"]
