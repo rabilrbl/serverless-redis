@@ -24,6 +24,8 @@ WORKDIR /app
 
 COPY --from=builderish /app/_build/prod/rel/prod/ ./_build/prod/rel/prod/
 
+USER rabil
+
 ARG SRH_MODE
 ENV SRH_MODE=${SRH_MODE}
 
@@ -36,6 +38,8 @@ ENV SRH_PORT=7860
 EXPOSE 7860
 
 COPY docker/supervisor.conf /etc/supervisor/conf.d/supervisor.conf
+
+RUN chown -R rabil /app
 
 ENV MIX_ENV=prod
 
