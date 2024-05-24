@@ -18,7 +18,7 @@ RUN mix release
 
 FROM elixir:1.13.4-slim
 
-RUN apt-get update && apt-get install -y supervisor adduser sudo curl gpg
+RUN apt-get update && apt-get install -y supervisor adduser sudo curl gpg lsb-release && apt-get clean all
 
 RUN useradd -m rabil && echo "rabil:rabil" | chpasswd && adduser rabil sudo
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
