@@ -42,7 +42,7 @@ EXPOSE 7860
 
 COPY docker/supervisor.conf /etc/supervisor/conf.d/supervisor.conf
 
-RUN chown -R rabil /app
+RUN sudo chown -R rabil /app
 
 ENV MIX_ENV=prod
 
