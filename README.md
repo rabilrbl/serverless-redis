@@ -6,8 +6,9 @@ colorTo: pink
 sdk: docker
 pinned: true
 license: mit
-app_port: 7860
 ---
+
+This is a forked version of [hiett/serverless-redis-http](https://github.com/hiett/serverless-redis-http). We have modified the dockerfile to include redis-server.
 
 # Serverless Redis HTTP (SRH)
 
