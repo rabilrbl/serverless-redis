@@ -43,43 +43,52 @@ Simply set the REST URL and token to where the SRH instance is running. For exam
 import {Redis} from '@upstash/redis';
 
 export const redis = new Redis({
-    url: "http://localhost:8079",
+    url: "http://localhost:7860",
     token: "example_token",
 });
 ```
 
 # Setting up SRH
 ## Via Docker command
-If you have a locally running Redis server, you can simply start an SRH container that connects to it.
-In this example, SRH will be running on port `8080`.
 
-```bash
-docker run \
-    -it -d -p 8080:80 --name srh \
-    -e SRH_MODE=env \
-    -e SRH_TOKEN=your_token_here \
-    -e SRH_CONNECTION_STRING="redis://your_server_here:6379" \
-    hiett/serverless-redis-http:latest
+#### Running the Docker Container
+
+Once the image is built, you can run the Docker container. The application requires several environment variables to be set, which you can pass during the `docker run` command.
+
+```sh
+docker run -d \
+  -e SRH_MODE=env \
+  -e SRH_TOKEN=<your_token> \
+  -e SRH_CONNECTION_STRING=redis://127.0.0.1:6379 \
+  -p 7860:7860 \
+  rabilrbl/serverless-redis:latest
 ```
 
-## Via Docker Compose
-If you wish to run in Kubernetes, this should contain all the basics would need to set that up. However, be sure to read the Configuration Options, because you can create a setup whereby multiple Redis servers are proxied.
-```yml
-version: '3'
-services:
-  redis:
-    image: redis
-    ports:
-      - '6379:6379'
-  serverless-redis-http:
-    ports:
-      - '8079:80'
-    image: hiett/serverless-redis-http:latest
-    environment:
-      SRH_MODE: env
-      SRH_TOKEN: example_token
-      SRH_CONNECTION_STRING: 'redis://redis:6379' # Using `redis` hostname since they're in the same Docker network.
-```
+Replace `<your_token>` with your actual configuration values. It will be used to authenticate requests to the Redis http server.
+
+#### Explanation of Arguments
+
+- `-d`: Run the container in detached mode.
+- `--name my_elixir_app_container`: Assigns a name to the running container.
+- `-e SRH_MODE=env`: Sets the `SRH_MODE` environment variable inside the container.
+- `-e SRH_TOKEN=<your_token>`: Sets the `SRH_TOKEN` environment variable inside the container.
+- `-e SRH_CONNECTION_STRING=redis://127.0.0.1:6379`: Sets the `SRH_CONNECTION_STRING` environment variable inside the container.
+- `-p 7860:7860`: Maps port 7860 on the host to port 7860 in the container.
+- `rabilrbl/serverless-redis`: The name of the Docker image to run.
+
+### Supervisor Configuration
+
+The application uses Supervisor to manage processes. The Supervisor configuration file is included in the Docker image at `/etc/supervisor/conf.d/supervisor.conf`.
+
+### Redis Configuration
+
+Redis configuration is included in the Docker image at `/etc/redis/redis.conf`.
+
+### Additional Information
+
+The application is built in production mode (`MIX_ENV=prod`) and expects all dependencies and the release to be present in the `_build/prod/rel/prod/` directory.
+
+For any issues or questions, please refer to the project's documentation or raise an issue on the project's repository.
 
 ## In GitHub Actions
 
@@ -100,14 +109,12 @@ jobs:
     runs-on: ubuntu-latest
     container: denoland/deno
     services:
-      redis:
-        image: redis/redis-stack-server:6.2.6-v6 # 6.2 is the Upstash compatible Redis version
       srh:
-        image: hiett/serverless-redis-http:latest
+        image: rabilrbl/serverless-redis:latest
         env:
           SRH_MODE: env # We are using env mode because we are only connecting to one server.
           SRH_TOKEN: ${{ env.SRH_TOKEN }}
-          SRH_CONNECTION_STRING: redis://redis:6379
+          SRH_CONNECTION_STRING: redis://127.0.0.1:6379
 
     steps:
       # You can place your normal testing steps here. In this example, we are running SRH against the upstash/upstash-redis test suite.
